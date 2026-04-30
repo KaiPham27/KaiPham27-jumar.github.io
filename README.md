@@ -51,14 +51,4 @@ http-server
 
 Simply double-click `index.html` to open it in your browser (limited functionality for some features).
 
-## 🎨 Customization Guide
 
-### 1. Update Personal Information
-
-Open `index.html` and replace:
-
-- **[Your Full Name]** - Your name (appears in multiple places)
-- **your.email@example.com** - Your email address
-- **+63 XXX XXXX XXX** - Your phone number
-- **Albay, Philippines** - Your location
-- **your.email@example.com** - Your email in contact form
