@@ -51,4 +51,4 @@ http-server
 
 Simply double-click `index.html` to open it in your browser (limited functionality for some features).
 OR
-Open Via Link: https://kaipham27.github.io/KaiPham27-jumar.github.io/
+Open Via Link:  https://kaipham27.github.io/Portfolio_Joms/
