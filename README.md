@@ -1,3 +1,7 @@
+
+Open Via Link: Open Via Link:  https://kaipham27.github.io/Portfolio_Joms/
+
+
 ## 🚀 How to Run Locally
 
 ### Method 1: Using Live Server (Recommended)
