@@ -33,6 +33,11 @@ body.dark-mode {
     --border-color: #374151;
 }
 
+/* separate dark mode styles */
+body.dark-mode .navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -89,8 +94,8 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    margin-left: 96px;
-    margin-right: 96px;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding: 0 20px;
     display: flex;
     justify-content: space-between;
