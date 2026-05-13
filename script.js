@@ -320,9 +320,9 @@ style.textContent = `
         opacity: 1;
     }
 `;
+
 document.head.appendChild(style);
 
-// Trigger animation on initial load for visible elements
 displayScrollElement();
 
 // VISITOR COUNTER
@@ -331,3 +331,67 @@ fetch('https://api.countapi.xyz/hit/jums-portfolio/visits')
     .then(data => {
         document.getElementById('visitor-count').textContent = data.value;
     });
+
+    const texts = [
+    "BSIT Student",
+    "Frontend Developer",
+    "Web Developer",
+    "Problem Solver"
+];
+
+let i = 0;
+let j = 0;
+let currentText = "";
+let isDeleting = false;
+
+function typeEffect() {
+    const typingElement = document.getElementById("typing-text");
+
+    if (!typingElement) return;
+
+    currentText = texts[i];
+
+    if (isDeleting) {
+        typingElement.textContent = currentText.substring(0, j--);
+    } else {
+        typingElement.textContent = currentText.substring(0, j++);
+    }
+
+    if (!isDeleting && j === currentText.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1000);
+        return;
+    }
+
+    if (isDeleting && j === 0) {
+        isDeleting = false;
+        i = (i + 1) % texts.length;
+    }
+
+    setTimeout(typeEffect, isDeleting ? 50 : 100);
+}
+
+typeEffect();
+
+//About Modal
+
+const modal = document.getElementById('aboutModal');
+const closeBtn = document.querySelector('.close');
+
+// OPEN MODAL
+document.querySelector('a[href="#about"]').addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.style.display = "flex";
+});
+
+// CLOSE BUTTON
+closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+// CLICK OUTSIDE CLOSE
+window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+});
