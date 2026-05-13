@@ -756,6 +756,12 @@ body {
     color: var(--accent-color);
 }
 
+.visitor-counter {
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
 /* Dark Mode Footer */
 body.dark-mode .footer {
     background-color: #1f2937;
