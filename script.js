@@ -96,46 +96,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // CONTACT FORM HANDLING
 
-contactForm.addEventListener('submit', (e) => {
+// CONTACT FORM HANDLING
+
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const subject = document.getElementById('subject').value.trim();
-    const message = document.getElementById('message').value.trim();
+    const submitBtn = contactForm.querySelector('button');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
 
-    if (!name || !email || !subject || !message) {
-        showFormMessage('Please fill in all fields.', 'error');
-        return;
-    }
+    try {
+        const response = await fetch(contactForm.action, {
+            method: 'POST',
+            body: new FormData(contactForm),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
 
-    showFormMessage('Sending message...', 'success');
-
-    fetch(contactForm.action, {
-        method: 'POST',
-        body: new FormData(contactForm),
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
         if (response.ok) {
-            showFormMessage('Message sent successfully!', 'success');
+            showFormMessage('✅ Message sent successfully!', 'success');
             contactForm.reset();
         } else {
-            showFormMessage('Failed to send message.', 'error');
+            showFormMessage('❌ Failed to send message.', 'error');
         }
-    })
-    .catch(() => {
-        showFormMessage('Network error. Try again.', 'error');
-    });
-});
 
-function showFormMessage(text, type) {
-    formMessage.textContent = text;
-    formMessage.classList.remove('success', 'error');
-    formMessage.classList.add(type);
-}
+    } catch (error) {
+        showFormMessage('⚠️ Network error. Please try again.', 'error');
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+});
 
 // SKILL PROGRESS BARS ANIMATION
 
@@ -178,17 +170,16 @@ window.addEventListener('scroll', () => {
     
     navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-            link.style.color = 'var(--primary-color)';
-        } else {
-            link.style.color = 'var(--text-dark)';
-        }
+        
     });
 });
 
 // PAGE LOAD ANIMATIONS
-
+if (link.getAttribute('href').slice(1) === current) {
+    link.classList.add('active');
+} else {
+    link.classList.remove('active');
+}
 window.addEventListener('load', () => {
     // Fade in hero section
     const heroContent = document.querySelector('.hero-content');
