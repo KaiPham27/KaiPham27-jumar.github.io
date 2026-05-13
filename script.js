@@ -324,3 +324,10 @@ document.head.appendChild(style);
 
 // Trigger animation on initial load for visible elements
 displayScrollElement();
+
+// VISITOR COUNTER
+fetch('https://api.countapi.xyz/hit/jums-portfolio/visits')
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('visitor-count').textContent = data.value;
+    });
