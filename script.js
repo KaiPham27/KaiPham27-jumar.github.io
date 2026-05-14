@@ -24,14 +24,10 @@ navLinks.forEach(link => {
 
 // DARK MODE TOGGLE
 
-// Check if user has a theme preference saved
 const currentTheme = localStorage.getItem('theme') || 'light-mode';
-
-// Apply saved theme on page load
 document.body.classList.add(currentTheme);
 updateThemeIcon();
 
-// Toggle theme when button is clicked
 themeToggle.addEventListener('click', (e) => {
     e.preventDefault();
     
@@ -80,6 +76,7 @@ scrollToTopBtn.addEventListener('click', () => {
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        if (this.getAttribute('href') === '#about') return;
         e.preventDefault();
         
         const targetId = this.getAttribute('href');
@@ -93,8 +90,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-// CONTACT FORM HANDLING
 
 // CONTACT FORM HANDLING
 
@@ -129,6 +124,14 @@ contactForm.addEventListener('submit', async (e) => {
     submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
 });
 
+function showFormMessage(message, type) {
+    formMessage.textContent = message;
+    formMessage.className = 'form-message ' + type;
+    setTimeout(() => {
+        formMessage.className = 'form-message';
+    }, 5000);
+}
+
 // SKILL PROGRESS BARS ANIMATION
 
 const observerOptions = {
@@ -148,7 +151,6 @@ const observer = new IntersectionObserver(function(entries) {
     });
 }, observerOptions);
 
-// Observe all skill items
 document.querySelectorAll('.skill-item').forEach(skillItem => {
     observer.observe(skillItem);
 });
@@ -157,52 +159,43 @@ document.querySelectorAll('.skill-item').forEach(skillItem => {
 
 window.addEventListener('scroll', () => {
     let current = '';
-    
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (scrollY >= sectionTop - 200) {
+
+    document.querySelectorAll('section').forEach(section => {
+        if (scrollY >= section.offsetTop - 200) {
             current = section.getAttribute('id');
         }
     });
-    
+
     navLinks.forEach(link => {
         link.classList.remove('active');
-        
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
     });
 });
 
 // PAGE LOAD ANIMATIONS
-if (link.getAttribute('href').slice(1) === current) {
-    link.classList.add('active');
-} else {
-    link.classList.remove('active');
-}
+
 window.addEventListener('load', () => {
-    // Fade in hero section
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
         heroContent.style.animation = 'fadeIn 1s ease-in-out';
     }
 });
 
-// PARALLAX EFFECT (Optnl Enhancement)
+// PARALLAX EFFECT
 
 document.addEventListener('mousemove', (e) => {
     const avatar = document.querySelector('.avatar');
     if (avatar && window.innerWidth > 768) {
         const mouseX = (e.clientX / window.innerWidth - 0.5) * 10;
         const mouseY = (e.clientY / window.innerHeight - 0.5) * 10;
-        
         avatar.style.transform = `translateY(calc(-20px + ${mouseY}px))`;
     }
 });
 
 // UTILITY FUNCTIONS
 
-// Debounce function for better performance
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -215,67 +208,34 @@ function debounce(func, wait) {
     };
 }
 
+// DOWNLOAD RESUME
 
-// TYPING EFFECT (Optional)
-
-
-function typeEffect(element, text, speed = 50) {
-    let i = 0;
-    element.textContent = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
-
-
-// PRINT RESUME FUNCTIONALITY (Enhancement)
-
-
-// Add download resume functionality
 document.addEventListener('DOMContentLoaded', () => {
     const downloadBtn = document.querySelector('.btn[download]');
-    
     if (downloadBtn) {
         downloadBtn.addEventListener('click', (e) => {
-            // The browser will naturally handle the download
-            // to add custom logic, you can do it here
             console.log('Resume download initiated');
         });
     }
 });
 
-
 // INITIALIZE ON PAGE LOAD
-
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✨ Portfolio loaded successfully!');
-    
-    // Add any additional initialization here
     initializeTooltips();
 });
 
 function initializeTooltips() {
-    // Add tooltip functionality if needed
     const tooltips = document.querySelectorAll('[data-tooltip]');
     tooltips.forEach(element => {
         element.addEventListener('mouseenter', function() {
             const tooltipText = this.getAttribute('data-tooltip');
-            // Can tooltip implementation here
         });
     });
 }
 
-
-// SCROLL ANIMATIONS (Fade-in on scroll)
-
+// SCROLL ANIMATIONS
 
 const scrollElements = document.querySelectorAll('.project-card, .experience-item, .skill-category');
 
@@ -284,49 +244,38 @@ const elementInView = (el, dividend = 1) => {
     return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
 };
 
-const elementOutofView = (el) => {
-    const elementTop = el.getBoundingClientRect().top;
-    return elementTop > (window.innerHeight || document.documentElement.clientHeight);
-};
-
 const displayScrollElement = debounce(function() {
     scrollElements.forEach((element) => {
         if (elementInView(element, 1.25)) {
             element.classList.add('scrolled');
         }
-    })
+    });
 }, 100);
 
 window.addEventListener('scroll', displayScrollElement);
 
-// Add CSS class for scroll animation
 const style = document.createElement('style');
 style.textContent = `
     .project-card, .experience-item, .skill-category {
         opacity: 0;
         transition: opacity 0.6s ease-in-out;
     }
-    
     .project-card.scrolled, .experience-item.scrolled, .skill-category.scrolled {
         opacity: 1;
     }
 `;
-
 document.head.appendChild(style);
 
 displayScrollElement();
 
 // VISITOR COUNTER
-fetch('https://api.countapi.xyz/hit/jomsdev-portfolio/visits')
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('visitor-count').textContent = data.value;
-    })
-    .catch(err => {
-        console.log("Counter error:", err);
-    });
 
-    const texts = [
+const visits = parseInt(localStorage.getItem('visitCount') || '0') + 1;
+localStorage.setItem('visitCount', visits);
+document.getElementById('visitor-count').textContent = visits;
+
+// TYPING EFFECT
+const texts = [
     "BSIT Student",
     "Frontend Developer",
     "Web Developer",
@@ -353,7 +302,7 @@ function typeEffect() {
 
     if (!isDeleting && j === currentText.length) {
         isDeleting = true;
-        setTimeout(typeEffect, 1000);
+        setTimeout(typeEffect, 1500);
         return;
     }
 
@@ -362,28 +311,25 @@ function typeEffect() {
         i = (i + 1) % texts.length;
     }
 
-    setTimeout(typeEffect, isDeleting ? 50 : 100);
+    setTimeout(typeEffect, isDeleting ? 80 : 100);
 }
 
 typeEffect();
 
-//About Modal
+// ABOUT MODAL
 
 const modal = document.getElementById('aboutModal');
 const closeBtn = document.querySelector('.close');
 
-// OPEN MODAL
 document.querySelector('a[href="#about"]').addEventListener("click", (e) => {
     e.preventDefault();
     modal.style.display = "flex";
 });
 
-// CLOSE BUTTON
 closeBtn.addEventListener("click", () => {
     modal.style.display = "none";
 });
 
-// CLICK OUTSIDE CLOSE
 window.addEventListener("click", (e) => {
     if (e.target === modal) {
         modal.style.display = "none";
