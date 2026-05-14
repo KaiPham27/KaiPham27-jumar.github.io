@@ -244,6 +244,17 @@ body {
     font-weight: 600;
 }
 
+#typing-text {
+    border-right: 3px solid var(--accent-color);
+    padding-right: 5px;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
 .hero-description {
     font-size: 1.1rem;
     color: var(--text-light);
