@@ -247,7 +247,7 @@ body {
 #typing-text {
     border-right: 3px solid var(--accent-color);
     padding-right: 5px;
-    animation: blink 0.7s infinite;
+    animation: blink 0.6s infinite;
 }
 
 @keyframes blink {
